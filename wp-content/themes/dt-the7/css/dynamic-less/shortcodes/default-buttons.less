@@ -1,0 +1,111 @@
+/* #Buttons
+================================================== */
+
+@btn-pi: 0px;
+@btn-pi-h: 0px;
+
+.mixin-bg (@customColor) when not (@customColor = ~"") {
+  background: @customColor !important;
+}
+
+.mixin-border-color (@customColor) when (iscolor(@customColor)) {
+  border-color: @customColor !important;
+}
+
+.mixin-color (@customColor) when (iscolor(@customColor)) {
+  color: @customColor;
+}
+
+.mixin-3d-shadow (@customColor) when (iscolor(@customColor)) {
+  box-shadow: 0px 2px 0px 0px desaturate(darken(@customColor, 12%), 20%);
+}
+
+.mixin-padding(@pt, @pr, @pb, @pl, @pi: 0px) when (ispixel(@pt)) {
+  padding: @pt+@pi @pr+@pi @pb+@pi @pl+@pi;
+}
+
+.mixin-shadow-style() {
+  .btn-shadow& {
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+
+    -webkit-transition: -webkit-box-shadow 0.2s ease-out, opacity 0.45s;
+    transition: box-shadow 0.2s ease-out, opacity 0.45s;
+
+    &:hover {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.mixin-3d-style(@3d-bg, @3d-hover-bg) {
+  .btn-3d& {
+    .mixin-3d-shadow (@3d-bg);
+
+    &:hover {
+      .mixin-3d-shadow (@3d-hover-bg);
+    }
+  }
+}
+
+.mixin-custom-settings() when (ispixel(@btn-border-radius)) {
+  border-radius: @btn-border-radius;
+  font-size: @btn-font-size;
+
+  .mixin-shadow-style();
+  .mixin-3d-style(@btn-bg-color, @btn-bg-color-hover);
+
+  .btn-flat& {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
+    &:hover {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+
+  &.ico-right-side > i {
+    margin-right: 0px;
+    margin-left: 8px;
+  }
+
+  & > i {
+    margin-right: 8px;
+    font-size: @btn-icon-size;
+  }
+
+  &:not(:hover) {
+    border-width: @btn-border-width;
+    .mixin-border-color (@btn-border-color);
+    .mixin-color (@btn-color);
+    .mixin-bg (@btn-bg-color);
+    .mixin-padding (@btn-padding-top, @btn-padding-right, @btn-padding-bottom, @btn-padding-left, @btn-pi);
+
+    & * {
+      .mixin-color (@btn-color);
+    }
+  }
+
+  &:hover {
+    border-width: @btn-border-width-hover;
+    .mixin-border-color (@btn-border-color-hover);
+    .mixin-color (@btn-color-hover);
+    .mixin-bg (@btn-bg-color-hover);
+    .mixin-padding (@btn-padding-top-hover, @btn-padding-right-hover, @btn-padding-bottom-hover, @btn-padding-left-hover, @btn-pi-h);
+
+    & * {
+      .mixin-color (@btn-color-hover);
+    }
+  }
+}
+
+#@{unique-shortcode-class-name} {
+  .mixin-custom-settings();
+
+  & * {
+    vertical-align: middle;
+  }
+}
+
